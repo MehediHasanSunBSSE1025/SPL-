@@ -12,6 +12,86 @@ int **imageArray;
 void ImageShifting(int imageArray[h][w]);
 int digitDetecting(int imageArray[h][w]);
 
+void ImageScaling(int arrayH_W[h][w])
+{
+    for(int i=0; i<h; i++)
+    {
+        for(int j=0; j<w; j++)
+        {
+            printf("%d ",arrayH_W[i][j]);
+        }
+        printf("\n");
+    }
+
+    int StartingIndexInX=0,endingIndexInX=0;
+
+    int breakFlag=0;
+    for(int i=0;i<w;i++)
+    {
+        for(int j=0;j<h;j++)
+        {
+            if(arrayH_W[j][i]==1)
+            {
+                printf("lalalalalalalalala\n");
+                StartingIndexInX=i;
+                breakFlag=1;
+                break;
+            }
+        }
+        if(breakFlag==1) break;
+    }
+
+    breakFlag=0;
+    for(int i=w-1;i>=0;i--)
+    {
+        for(int j=0;j<h;j++)
+        {
+            if(arrayH_W[j][i]==1)
+            {
+                endingIndexInX=i;
+                breakFlag=1;
+                break;
+            }
+        }
+        if(breakFlag==1) break;
+    }
+
+    int StartingIndexInY=0,endingIndexInY=0;
+
+    breakFlag=0;
+    for(int i=0;i<h;i++)
+    {
+        for(int j=0;j<w;j++)
+        {
+            if(arrayH_W[i][j]==1)
+            {
+                StartingIndexInY=i;
+                breakFlag=1;
+                break;
+            }
+        }
+        if(breakFlag==1) break;
+    }
+
+    breakFlag=0;
+    for(int i=h-1;i>=0;i--)
+    {
+        for(int j=0;j<w;j++)
+        {
+            if(arrayH_W[i][j]==1)
+            {
+                endingIndexInY=i;
+                breakFlag=1;
+                break;
+            }
+        }
+        if(breakFlag==1) break;
+    }
+
+    printf("X axis : (%d,%d)\nY axis : (%d,%d)\n",StartingIndexInX,endingIndexInX,StartingIndexInY,endingIndexInY);
+
+}
+
 void splitArrayInXAxis(int startIndex,int endIndex)
 {
 
@@ -43,6 +123,7 @@ void splitArrayInXAxis(int startIndex,int endIndex)
         }
     }
 
+    ImageScaling(arrayH_W);
     ImageShifting(arrayH_W);
 
     for(int i=0; i<h; i++)
@@ -91,6 +172,7 @@ void splitArrayInYAxis(int startIndex,int endIndex)
         }
     }
 
+    ImageScaling(arrayH_W);
     ImageShifting(arrayH_W);
 
     for(int i=0; i<h; i++)
