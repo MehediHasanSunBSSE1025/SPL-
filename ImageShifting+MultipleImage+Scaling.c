@@ -11,9 +11,11 @@ int **imageArray;
 
 void ImageShifting(int imageArray[h][w]);
 int digitDetecting(int imageArray[h][w]);
+void fillingForScaling(int tempArray[h][w],int xIndex,double XRatio,int Yindex,double YRatio);
 
 void ImageScaling(int arrayH_W[h][w])
 {
+    printf("............................................................\n");
     for(int i=0; i<h; i++)
     {
         for(int j=0; j<w; j++)
@@ -21,6 +23,16 @@ void ImageScaling(int arrayH_W[h][w])
             printf("%d ",arrayH_W[i][j]);
         }
         printf("\n");
+    }
+
+    int tempArray[h][w];
+
+    for(int i=0; i<h; i++)
+    {
+        for(int j=0; j<w; j++)
+        {
+            tempArray[i][j]=0;
+        }
     }
 
     int StartingIndexInX=0,endingIndexInX=0;
@@ -32,7 +44,6 @@ void ImageScaling(int arrayH_W[h][w])
         {
             if(arrayH_W[j][i]==1)
             {
-                printf("lalalalalalalalala\n");
                 StartingIndexInX=i;
                 breakFlag=1;
                 break;
@@ -90,6 +101,28 @@ void ImageScaling(int arrayH_W[h][w])
 
     printf("X axis : (%d,%d)\nY axis : (%d,%d)\n",StartingIndexInX,endingIndexInX,StartingIndexInY,endingIndexInY);
 
+    double XRatio=28.0/(endingIndexInX-StartingIndexInX);
+    double YRatio=28.0/(endingIndexInY-StartingIndexInY);
+
+    for(int i=0;i<h;i++)
+    {
+        for(int j=0;j<w;j++)
+        {
+            if(arrayH_W[i][j]==1)
+            {
+                fillingForScaling(tempArray,j,XRatio,i,YRatio);
+            }
+        }
+    }
+}
+
+void fillingForScaling(int tempArray[h][w],int xIndex,double XRatio,int Yindex,double YRatio)
+{
+    int start_x,end_x,start_y,end_y;
+    double temp1=xIndex*XRatio*1.0;
+    int temp1
+
+    if()
 }
 
 void splitArrayInXAxis(int startIndex,int endIndex)
