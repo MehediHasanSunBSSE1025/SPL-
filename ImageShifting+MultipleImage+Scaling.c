@@ -15,7 +15,7 @@ void fillingForScaling(int tempArray[h][w],int xIndex,double XRatio,int Yindex,d
 
 void ImageScaling(int arrayH_W[h][w])
 {
-    printf("............................................................\n");
+    printf("ImageScaling start............................................................\n");
     for(int i=0; i<h; i++)
     {
         for(int j=0; j<w; j++)
@@ -24,16 +24,7 @@ void ImageScaling(int arrayH_W[h][w])
         }
         printf("\n");
     }
-
-    int tempArray[h][w];
-
-    for(int i=0; i<h; i++)
-    {
-        for(int j=0; j<w; j++)
-        {
-            tempArray[i][j]=0;
-        }
-    }
+    printf("............................................................\n");
 
     int StartingIndexInX=0,endingIndexInX=0;
 
@@ -104,6 +95,16 @@ void ImageScaling(int arrayH_W[h][w])
     double XRatio=28.0/(endingIndexInX-StartingIndexInX);
     double YRatio=28.0/(endingIndexInY-StartingIndexInY);
 
+    int tempArray[h][w];
+
+    for(int i=0; i<h; i++)
+    {
+        for(int j=0; j<w; j++)
+        {
+            tempArray[i][j]=0;
+        }
+    }
+
     for(int i=0;i<h;i++)
     {
         for(int j=0;j<w;j++)
@@ -114,15 +115,68 @@ void ImageScaling(int arrayH_W[h][w])
             }
         }
     }
+
+    printf("ImageScaling end............................................................\n");
+    for(int i=0; i<h; i++)
+    {
+        for(int j=0; j<w; j++)
+        {
+            printf("%d ",arrayH_W[i][j]);
+        }
+        printf("\n");
+    }
+    printf("............................................................\n");
 }
 
 void fillingForScaling(int tempArray[h][w],int xIndex,double XRatio,int Yindex,double YRatio)
 {
     int start_x,end_x,start_y,end_y;
-    double temp1=xIndex*XRatio*1.0;
-    int temp1
+    double tempD=xIndex*XRatio*1.0;
+    int tempI=xIndex*XRatio;
 
-    if()
+    if(tempD>=tempI+0.5){
+        start_x=tempI+1;
+    }
+    else {
+        start_x=tempI;
+    }
+
+    tempD=xIndex*XRatio*1.0+XRatio;
+    tempI=xIndex*XRatio+XRatio;
+
+    if(tempD>=tempI+0.5){
+        end_x=tempI+1;
+    }
+    else {
+        end_x=tempI;
+    }
+
+    tempD=Yindex*YRatio*1.0;
+    tempI=Yindex*YRatio;
+
+    if(tempD>=tempI+0.5){
+        start_y=tempI+1;
+    }
+    else {
+        start_y=tempI;
+    }
+
+    tempD=Yindex*YRatio*1.0+YRatio;
+    tempI=Yindex*YRatio+YRatio;
+
+    if(tempD>=tempI+0.5){
+        end_y=tempI+1;
+    }
+    else {
+        end_y=tempI;
+    }
+
+    for(int i=start_x;i<=end_x && i<w;i++)
+    {
+        for(int j=start_y;j<=end_y && j<h;j++)
+            tempArray[j][i]=1;
+    }
+
 }
 
 void splitArrayInXAxis(int startIndex,int endIndex)
