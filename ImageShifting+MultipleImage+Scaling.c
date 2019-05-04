@@ -1,7 +1,7 @@
 #include<stdio.h>
+#include<dirent.h>
 #include<stdlib.h>
 #include<string.h>
-#include<dirent.h>
 
 char charName[10][1000]={"0\\","1\\","2\\","3\\","4\\","5\\","6\\","7\\","8\\","9\\"};
 char charNameDotTxt[10][1000]={"0.txt","1.txt","2.txt","3.txt","4.txt","5.txt","6.txt","7.txt","8.txt","9.txt"};
