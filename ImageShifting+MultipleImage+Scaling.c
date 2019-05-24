@@ -15,16 +15,16 @@ void fillingForScaling(int tempArray[h][w],int xIndex,double XRatio,int Yindex,d
 
 void ImageScaling(int arrayH_W[h][w])
 {
-//    printf("ImageScaling start............................................................\n");
-//    for(int i=0; i<h; i++)
-//    {
-//        for(int j=0; j<w; j++)
-//        {
-//            printf("%d ",arrayH_W[i][j]);
-//        }
-//        printf("\n");
-//    }
-//    printf("............................................................\n");
+    printf("ImageScaling start............................................................\n");
+    for(int i=0; i<h; i++)
+    {
+        for(int j=0; j<w; j++)
+        {
+            printf("%d ",arrayH_W[i][j]);
+        }
+        printf("\n");
+    }
+    printf("............................................................\n");
 
     int StartingIndexInX=0,endingIndexInX=0;
 
@@ -118,16 +118,16 @@ void ImageScaling(int arrayH_W[h][w])
         }
     }
 
-//    printf("ImageScaling end............................................................\n");
-//    for(int i=0; i<h; i++)
-//    {
-//        for(int j=0; j<w; j++)
-//        {
-//            printf("%d ",arrayH_W[i][j]);
-//        }
-//        printf("\n");
-//    }
-//    printf("............................................................\n");
+    printf("ImageScaling end............................................................\n");
+    for(int i=0; i<h; i++)
+    {
+        for(int j=0; j<w; j++)
+        {
+            printf("%d ",arrayH_W[i][j]);
+        }
+        printf("\n");
+    }
+    printf("............................................................\n");
 }
 
 void fillingForScaling(int tempArray[h][w],int xIndex,double XRatio,int Yindex,double YRatio)
@@ -175,10 +175,10 @@ void fillingForScaling(int tempArray[h][w],int xIndex,double XRatio,int Yindex,d
 
     double midX=(end_x+start_x)/2.0;
     double midY=(end_y+start_y)/2.0;
-
-    start_x=start_x-(midX-xIndex);
-    end_x=end_x-(midX-xIndex);
-
+//
+//    start_x=start_x-(midX-xIndex);
+//    end_x=end_x-(midX-xIndex);
+//
 
     start_y-=((midY-Yindex));
     end_y-=((midY-Yindex));
@@ -223,9 +223,7 @@ void splitArrayInXAxis(int startIndex,int endIndex)
         }
     }
 
-    ImageShifting(arrayH_W);
-    ImageScaling(arrayH_W);
-
+    printf("ImageShifting start............................................................\n");
     for(int i=0; i<h; i++)
     {
         for(int j=0; j<w; j++)
@@ -234,6 +232,21 @@ void splitArrayInXAxis(int startIndex,int endIndex)
         }
         printf("\n");
     }
+    printf("............................................................\n");
+
+    ImageShifting(arrayH_W);
+    ImageScaling(arrayH_W);
+
+    printf("ImageShifting end............................................................\n");
+    for(int i=0; i<h; i++)
+    {
+        for(int j=0; j<w; j++)
+        {
+            printf("%d ",arrayH_W[i][j]);
+        }
+        printf("\n");
+    }
+    printf("............................................................\n");
 
     int finalDigit=digitDetecting(arrayH_W);
 
@@ -272,9 +285,7 @@ void splitArrayInYAxis(int startIndex,int endIndex)
         }
     }
 
-    ImageShifting(arrayH_W);
-    ImageScaling(arrayH_W);
-
+    printf("ImageShifting start............................................................\n");
     for(int i=0; i<h; i++)
     {
         for(int j=0; j<w; j++)
@@ -283,6 +294,20 @@ void splitArrayInYAxis(int startIndex,int endIndex)
         }
         printf("\n");
     }
+    printf("............................................................\n");
+    ImageShifting(arrayH_W);
+    ImageScaling(arrayH_W);
+
+    printf("ImageShifting end............................................................\n");
+    for(int i=0; i<h; i++)
+    {
+        for(int j=0; j<w; j++)
+        {
+            printf("%d ",arrayH_W[i][j]);
+        }
+        printf("\n");
+    }
+    printf("............................................................\n");
 
     int finalDigit=digitDetecting(arrayH_W);
 
@@ -574,7 +599,7 @@ int main ()
             }
 
             ImageShifting(Temp2dArrayCanBeUsedAgain);
-            ImageScaling(Temp2dArrayCanBeUsedAgain);
+            //ImageScaling(Temp2dArrayCanBeUsedAgain);
 
             for(int i=0; i<h; i++)
             {
