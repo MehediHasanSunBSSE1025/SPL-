@@ -6,7 +6,7 @@ int main ()
     FILE *bmp;
 
     //image open
-    bmp=fopen("5.bmp", "rb");
+    bmp=fopen("100.bmp", "rb");
 
     if (!bmp) {
         printf("Error");
