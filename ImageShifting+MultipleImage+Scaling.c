@@ -2,20 +2,25 @@
 #include<dirent.h>
 #include<stdlib.h>
 #include<string.h>
+#include<math.h>
 
 char charName[10][1000]={"0\\","1\\","2\\","3\\","4\\","5\\","6\\","7\\","8\\","9\\"};
 char charNameDotTxt[10][1000]={"0.txt","1.txt","2.txt","3.txt","4.txt","5.txt","6.txt","7.txt","8.txt","9.txt"};
 char fileLocation[]="D:\\SPL\\";
 int w=28,h=28;
+int black=1,white=0;
 int **imageArray;
+int numOfImage=20;
 
+void printArr(int arrayH_W[h][w]);
 void ImageShifting(int imageArray[h][w]);
+void ImageScaling(int arrayH_W[h][w],int setGrp);
 int digitDetecting(int imageArray[h][w]);
-void fillingForScaling(int tempArray[h][w],int xIndex,double XRatio,int Yindex,double YRatio);
+void fillingForScaling(int tempArray[h][w],int xIndex,double XRatio,int Yindex,double YRatio,int ,int);
 
-void ImageScaling(int arrayH_W[h][w])
+void printArr(int arrayH_W[h][w])
 {
-    printf("ImageScaling start............................................................\n");
+    printf("\n");
     for(int i=0; i<h; i++)
     {
         for(int j=0; j<w; j++)
@@ -24,8 +29,11 @@ void ImageScaling(int arrayH_W[h][w])
         }
         printf("\n");
     }
-    printf("............................................................\n");
+    printf("\n");
+}
 
+void ImageScaling(int arrayH_W[h][w],int setGrp)
+{
     int StartingIndexInX=0,endingIndexInX=0;
 
     int breakFlag=0;
@@ -92,20 +100,34 @@ void ImageScaling(int arrayH_W[h][w])
 
     //printf("X axis : (%d,%d)\nY axis : (%d,%d)\n",StartingIndexInX,endingIndexInX,StartingIndexInY,endingIndexInY);
 
-    double XRatio=28.0/(endingIndexInX-StartingIndexInX+1);
-    double YRatio=28.0/(endingIndexInY-StartingIndexInY+1);
+    double differenceX=(endingIndexInX-StartingIndexInX+1.0);
+    double differenceY=(endingIndexInY-StartingIndexInY+1.0);
 
-    //printf("Xratio %llf\nYratio %llf\n",XRatio,YRatio);
+    double ratioY=28.0/differenceY;
+    double ratioX=28.0/differenceX;
 
     int tempArray[28][28]={0};
 
-    for(int i=0;i<h;i++)
+    if(differenceX>differenceY)
     {
-        for(int j=0;j<w;j++)
+        for(int i=0;i<h;i++)
         {
-            if(arrayH_W[i][j]==1)
+            for(int j=0;j<w;j++)
             {
-                fillingForScaling(tempArray,j,XRatio,i,YRatio);
+                if(arrayH_W[i][j]==1)
+                {
+                    fillingForScaling(tempArray,j,ratioX,i,ratioY,StartingIndexInX,StartingIndexInY);                }
+            }
+        }
+    }
+    else{
+        for(int i=0;i<h;i++)
+        {
+            for(int j=0;j<w;j++)
+            {
+                if(arrayH_W[i][j]==1)
+                {
+                    fillingForScaling(tempArray,j,ratioY,i,ratioY,StartingIndexInX,StartingIndexInY);                }
             }
         }
     }
@@ -117,78 +139,133 @@ void ImageScaling(int arrayH_W[h][w])
             arrayH_W[i][j]=tempArray[i][j];
         }
     }
+//
+//    double divOfDiff=differenceY/differenceX*1.0;
+//
+//    if((divOfDiff<1.33 && setGrp==0 )|| setGrp==1)
+//    {
+//
+//        double XRatio=28.0/(endingIndexInX-StartingIndexInX+1);
+//        double YRatio=28.0/(endingIndexInY-StartingIndexInY+1);
+//
+//        int tempArray[28][28]={0};
+//
+//        for(int i=0;i<h;i++)
+//        {
+//            for(int j=0;j<w;j++)
+//            {
+//                if(arrayH_W[i][j]==1)
+//                {
+//                    fillingForScaling(tempArray,j,XRatio,i,YRatio,StartingIndexInX,StartingIndexInY);
+//                }
+//            }
+//        }
+//
+//        for(int i=0; i<h; i++)
+//        {
+//            for(int j=0; j<w; j++)
+//            {
+//                arrayH_W[i][j]=tempArray[i][j];
+//            }
+//        }
+//
+//    }
+//    else if((divOfDiff>=1.33 && divOfDiff <=1.67 && setGrp==0 )||setGrp==2)
+//    {
+//
+//        double XRatio=18.0/(endingIndexInX-StartingIndexInX+1);
+//        double YRatio=28.0/(endingIndexInY-StartingIndexInY+1);
+//
+//        int tempArray[28][28]={0};
+//
+//        for(int i=0;i<h;i++)
+//        {
+//            for(int j=0;j<w;j++)
+//            {
+//                if(arrayH_W[i][j]==1)
+//                {
+//                    fillingForScaling(tempArray,j,XRatio,i,YRatio,StartingIndexInX,StartingIndexInY);
+//                }
+//            }
+//        }
+//
+//        for(int i=0; i<h; i++)
+//        {
+//            for(int j=0; j<w; j++)
+//            {
+//                arrayH_W[i][j]=tempArray[i][j];
+//            }
+//        }
+//
+//    }
+//    else {
+//
+//        double XRatio=14.0/(endingIndexInX-StartingIndexInX+1);
+//        double YRatio=28.0/(endingIndexInY-StartingIndexInY+1);
+//
+//        int tempArray[28][28]={0};
+//
+//        for(int i=0;i<h;i++)
+//        {
+//            for(int j=0;j<w;j++)
+//            {
+//                if(arrayH_W[i][j]==1)
+//                {
+//                    fillingForScaling(tempArray,j,XRatio,i,YRatio,StartingIndexInX,StartingIndexInY);
+//                }
+//            }
+//        }
+//
+//        for(int i=0; i<h; i++)
+//        {
+//            for(int j=0; j<w; j++)
+//            {
+//                arrayH_W[i][j]=tempArray[i][j];
+//            }
+//        }
+//
+//    }
 
-    printf("ImageScaling end............................................................\n");
-    for(int i=0; i<h; i++)
-    {
-        for(int j=0; j<w; j++)
-        {
-            printf("%d ",arrayH_W[i][j]);
-        }
-        printf("\n");
-    }
-    printf("............................................................\n");
+    //printf("Xratio %llf\nYratio %llf\n",XRatio,YRatio);
+
+
 }
 
-void fillingForScaling(int tempArray[h][w],int xIndex,double XRatio,int Yindex,double YRatio)
+void fillingForScaling(int tempArray[h][w],int xIndex,double XRatio,int Yindex,double YRatio,int startX,int startY)
 {
     int start_x,end_x,start_y,end_y;
-    double tempD=xIndex*XRatio*1.0;
-    int tempI=xIndex*XRatio;
+    int shiftX=round(startX*XRatio*1.0);
+    int shiftY=round(startY*YRatio*1.0);
 
-    if(tempD>=tempI+0.5){
-        start_x=tempI+1;
-    }
-    else {
-        start_x=tempI;
-    }
+    start_x=round(xIndex*XRatio*1.0)-shiftX;
+    end_x=round(xIndex*XRatio*1.0+XRatio)-shiftX;
 
-    tempD=xIndex*XRatio*1.0+XRatio;
-    tempI=xIndex*XRatio+XRatio;
+    start_y=round(Yindex*YRatio*1.0)-shiftY;
+    end_y=round(Yindex*YRatio*1.0+YRatio)-shiftY;
 
-    if(tempD>=tempI+0.5){
-        end_x=tempI+1;
-    }
-    else {
-        end_x=tempI;
-    }
-
-    tempD=Yindex*YRatio*1.0;
-    tempI=Yindex*YRatio;
-
-    if(tempD>=tempI+0.5){
-        start_y=tempI+1;
-    }
-    else {
-        start_y=tempI;
-    }
-
-    tempD=Yindex*YRatio*1.0+YRatio;
-    tempI=Yindex*YRatio+YRatio;
-
-    if(tempD>=tempI+0.5){
-        end_y=tempI+1;
-    }
-    else {
-        end_y=tempI;
-    }
 
     double midX=(end_x+start_x)/2.0;
     double midY=(end_y+start_y)/2.0;
-//
+
 //    start_x=start_x-(midX-xIndex);
 //    end_x=end_x-(midX-xIndex);
 //
+//    start_y-=((midY-Yindex));
+//    end_y-=((midY-Yindex));
 
-    start_y-=((midY-Yindex));
-    end_y-=((midY-Yindex));
 
-
-    for(int i=start_x;i<=end_x && i<w;i++)
+    for(int i=start_y;i<=end_y && i<28;i++)
     {
-        for(int j=start_y;j<=end_y && j<h;j++)
-            tempArray[j][i]=1;
+        for(int j=start_x;j<=end_x && j<28;j++)
+        {
+            tempArray[i][j]=1;
+        }
     }
+//
+//    printArr(tempArray);
+
+//    printf("%d,%d --- %llf,%llf ---\n",xIndex,Yindex,XRatio,YRatio);
+//    getchar();
 
 }
 
@@ -223,33 +300,17 @@ void splitArrayInXAxis(int startIndex,int endIndex)
         }
     }
 
-    printf("ImageShifting start............................................................\n");
-    for(int i=0; i<h; i++)
-    {
-        for(int j=0; j<w; j++)
-        {
-            printf("%d ",arrayH_W[i][j]);
-        }
-        printf("\n");
-    }
-    printf("............................................................\n");
-
-    ImageShifting(arrayH_W);
-    ImageScaling(arrayH_W);
-
-    printf("ImageShifting end............................................................\n");
-    for(int i=0; i<h; i++)
-    {
-        for(int j=0; j<w; j++)
-        {
-            printf("%d ",arrayH_W[i][j]);
-        }
-        printf("\n");
-    }
-    printf("............................................................\n");
+    ImageScaling(arrayH_W,0);
+    printf("After Scaling........................\n");
+    printArr(arrayH_W);
 
     int finalDigit=digitDetecting(arrayH_W);
 
+    ImageShifting(arrayH_W);
+    printf("After Shifting.......................\n");
+    printArr(arrayH_W);
+
+    finalDigit=digitDetecting(arrayH_W);
     printf("\n\nthe number is %d\n..........................\n",finalDigit);
 
 }
@@ -285,32 +346,18 @@ void splitArrayInYAxis(int startIndex,int endIndex)
         }
     }
 
-    printf("ImageShifting start............................................................\n");
-    for(int i=0; i<h; i++)
-    {
-        for(int j=0; j<w; j++)
-        {
-            printf("%d ",arrayH_W[i][j]);
-        }
-        printf("\n");
-    }
-    printf("............................................................\n");
-    ImageShifting(arrayH_W);
-    ImageScaling(arrayH_W);
-
-    printf("ImageShifting end............................................................\n");
-    for(int i=0; i<h; i++)
-    {
-        for(int j=0; j<w; j++)
-        {
-            printf("%d ",arrayH_W[i][j]);
-        }
-        printf("\n");
-    }
-    printf("............................................................\n");
+    ImageScaling(arrayH_W,0);
+    printf("After Scaling........................\n");
+    printArr(arrayH_W);
 
     int finalDigit=digitDetecting(arrayH_W);
+//    printf("\n\nthe number is %d\n..........................\n",finalDigit);
 
+    ImageShifting(arrayH_W);
+    printf("After Shifting........................\n");
+    printArr(arrayH_W);
+
+    finalDigit=digitDetecting(arrayH_W);
     printf("\n\nthe number is %d\n..........................\n",finalDigit);
 
 }
@@ -357,7 +404,7 @@ int digitDetecting(int imageArray[h][w])
         {
             if(decisionArray[i]>max) max=decisionArray[i];
 
-            printf("%d     ->   %d\n",i,decisionArray[i]);
+            printf("%d     ->   %d %%\n",i,(decisionArray[i]*100)/(numOfImage*14*28));
         }
 
         for(int i=0;i<10;i++)
@@ -580,10 +627,10 @@ int main ()
             for(int i=0,j=0; i<w*h*3; i=i+3,j++)
             {
                 if(temp[i]>=100 && temp[i]<=300 && temp[i+1]>=100 && temp[i+1]<=300&& temp[i+2]>=100 && temp[i+2]<=300) {
-                    arraYY[j]=0;
+                    arraYY[j]=white;
                 }
                 else {
-                    arraYY[j]=1;
+                    arraYY[j]=black;
                 }
             }
 
@@ -598,8 +645,13 @@ int main ()
                 }
             }
 
+            if(num==1)
+                ImageScaling(Temp2dArrayCanBeUsedAgain,3);
+            else if(num==2||num==3||num==4)
+                ImageScaling(Temp2dArrayCanBeUsedAgain,2);
+            else
+                ImageScaling(Temp2dArrayCanBeUsedAgain,1);
             ImageShifting(Temp2dArrayCanBeUsedAgain);
-            //ImageScaling(Temp2dArrayCanBeUsedAgain);
 
             for(int i=0; i<h; i++)
             {
@@ -629,19 +681,19 @@ int main ()
                 TrainingimageSumArray[i][j]=Temp2dArrayCanBeUsedAgain[i][j];
             }
         }
-
-        printf("\n");
-        for(int i=0; i<h; i++)
-        {
-            for(int j=0; j<w; j++)
-            {
-                printf("%d",TrainingimageSumArray[i][j]);
-                if(TrainingimageSumArray[i][j]<10) printf("  ");
-                else printf(" ");
-            }
-            printf("\n");
-        }
-        printf("\n");
+//
+//        printf("\n");
+//        for(int i=0; i<h; i++)
+//        {
+//            for(int j=0; j<w; j++)
+//            {
+//                printf("%d",TrainingimageSumArray[i][j]);
+//                if(TrainingimageSumArray[i][j]<10) printf("  ");
+//                else printf(" ");
+//            }
+//            printf("\n");
+//        }
+//        printf("\n");
 
         char outputFileLocation[100]= {0};
         strcpy(outputFileLocation,fileLocation);
@@ -734,11 +786,11 @@ int main ()
         {
             if(temp[i]>=100 && temp[i]<=300 && temp[i+1]>=100 && temp[i+1]<=300&& temp[i+2]>=100 && temp[i+2]<=300)
             {
-                arraYY[j]=0;
+                arraYY[j]=white;
             }
             else
             {
-                arraYY[j]=1;
+                arraYY[j]=black;
             }
         }
 
@@ -843,13 +895,13 @@ int main ()
                 {
                         flag1=0;
                         endIndex=i-1;
-                        printf("start index:%d\nEnd Index :%d\n\n",startIndex,endIndex);
+                        //printf("start index:%d\nEnd Index :%d\n\n",startIndex,endIndex);
                         splitArrayInXAxis(startIndex,endIndex);
                 }
                 else if(i==w-1 && flag1==1)
                 {
                     endIndex=w-1;
-                    printf("start index:%d\nEnd Index :%d\n\n",startIndex,endIndex);
+                    //printf("start index:%d\nEnd Index :%d\n\n",startIndex,endIndex);
                     splitArrayInXAxis(startIndex,endIndex);
                 }
             }
@@ -877,13 +929,13 @@ int main ()
                 {
                     flag1=0;
                     endIndex=i-1;
-                    printf("start index:%d\nEnd Index :%d\n\n",startIndex,endIndex);
+                    //printf("start index:%d\nEnd Index :%d\n\n",startIndex,endIndex);
                     splitArrayInYAxis(startIndex,endIndex);
                 }
                 else if(i==h-1 && flag1==1)
                 {
                     endIndex=h-1;
-                    printf("start index:%d\nEnd Index :%d\n\n",startIndex,endIndex);
+                    //printf("start index:%d\nEnd Index :%d\n\n",startIndex,endIndex);
                     splitArrayInYAxis(startIndex,endIndex);
                 }
             }
