@@ -7,7 +7,7 @@
 char charName[10][1000]={"0\\","1\\","2\\","3\\","4\\","5\\","6\\","7\\","8\\","9\\"};
 char charNameDotTxt[10][1000]={"0.txt","1.txt","2.txt","3.txt","4.txt","5.txt","6.txt","7.txt","8.txt","9.txt"};
 char fileLocation[]="D:\\SPL\\";
-int w=28,h=28;
+int w=28,h=28; //w=width,h=height of an image
 int black=0,white=1;
 int **imageArray;
 int numOfImage=500;
@@ -219,17 +219,18 @@ void splitArrayInXAxis(int startIndex,int endIndex)
     int finalDigit;
 
 //    printArr(arrayH_W);
+//    finalDigit=digitDetecting(arrayH_W);
+//    printf("\n\nthe number is %d\n..........................\n",finalDigit);
 
     ImageScaling(arrayH_W,0);
 
 //    printArr(arrayH_W);
-
 //    finalDigit=digitDetecting(arrayH_W);
+//    printf("\n\nthe number is %d\n..........................\n",finalDigit);
 
     ImageShifting(arrayH_W);
-//    printf("After Shifting.......................\n");
-//    printArr(arrayH_W);
 
+    printArr(arrayH_W);
     finalDigit=digitDetecting(arrayH_W);
     printf("\n\nthe number is %d\n..........................\n",finalDigit);
 
@@ -268,17 +269,19 @@ void splitArrayInYAxis(int startIndex,int endIndex)
 
     int finalDigit;
 
-    ImageScaling(arrayH_W,0);
-//    printf("After Scaling........................\n");
 //    printArr(arrayH_W);
-//
+//    finalDigit=digitDetecting(arrayH_W);
+//    printf("\n\nthe number is %d\n..........................\n",finalDigit);
+
+    ImageScaling(arrayH_W,0);
+
+//    printArr(arrayH_W);
 //    finalDigit=digitDetecting(arrayH_W);
 //    printf("\n\nthe number is %d\n..........................\n",finalDigit);
 
     ImageShifting(arrayH_W);
-//    printf("After Shifting........................\n");
-//    printArr(arrayH_W);
 
+    printArr(arrayH_W);
     finalDigit=digitDetecting(arrayH_W);
     printf("\n\nthe number is %d\n..........................\n",finalDigit);
 
@@ -468,14 +471,12 @@ void ImageShifting(int imageArray[h][w])
 
 int main ()
 {
-    //char OutputFileLocation2[100];
-
-    for(int num=0; num<10; num++)
+    for(int num=0; num<10; num++)//num = number of digit
     {
         unsigned char header[54];
         FILE *bmp;
 
-        int h=28,w=28,n=-2;
+        int h=28,w=28,n=-2; //n=number of file in a directory
         char TrainingImageFileLocation[1000];
         strcpy(TrainingImageFileLocation,fileLocation);
         strcat(TrainingImageFileLocation,"trainingImage\\");
@@ -510,7 +511,7 @@ int main ()
 
         closedir(openEDDir);
 
-        int arraYY[w*h];
+        int arraYY[w*h]; //temporary array to read pixels in linear way
         for(int i=0; i<w*h; i++)
         {
             arraYY[i]=0;
@@ -525,13 +526,14 @@ int main ()
             }
         }
 
-        for(int c=0; c<n; c++)
+        for(int c=0; c<n; c++) //c=counter
         {
+            int imageArr[h][w];
             char trainingImageLocName[100]={0};
             strcpy(trainingImageLocName,TrainingImageFileLocation);
             strcat(trainingImageLocName,trainingImageName[c]);
 
-            bmp=fopen(trainingImageLocName, "rb");
+            bmp=fopen(trainingImageLocName, "rb"); //bmp = BMP file opener
             if (!bmp) {
                 printf("Error Part ->1\n");
                 return 0;
@@ -558,7 +560,7 @@ int main ()
                 }
             }
 
-            int imageArr[h][w];
+
             int k=0;
             for(int i=0; i<h; i++)
             {
@@ -632,12 +634,12 @@ int main ()
 
                 fprintf(fileOutput," %d ",TrainingimageSumArray[i][j]);
 
-                printf("%d",TrainingimageSumArray[i][j]);
-                if(TrainingimageSumArray[i][j]<10) printf("   ");
-                else if(TrainingimageSumArray[i][j]<100) printf("  ");
-                else printf(" ");
+//                printf("%d",TrainingimageSumArray[i][j]);
+//                if(TrainingimageSumArray[i][j]<10) printf("   ");
+//                else if(TrainingimageSumArray[i][j]<100) printf("  ");
+//                else printf(" ");
             }
-            printf("\n");
+//            printf("\n");
             fprintf(fileOutput,"\n");
         }
         printf("\n");
@@ -750,14 +752,14 @@ int main ()
             }
         }
 
-//        for(int i=0; i<h; i++)
-//        {
-//            for(int j=0; j<w; j++)
-//            {
-//                printf("%d ",imageArray[i][j]);
-//            }
-//            printf("\n");
-//        }
+        for(int i=0; i<h; i++)
+        {
+            for(int j=0; j<w; j++)
+            {
+                printf("%d ",imageArray[i][j]);
+            }
+            printf("\n");
+        }
 
         int imageInX=0,imageInY=0;
 
@@ -793,8 +795,6 @@ int main ()
             }
             if(!flag1 && flag2) flag1=1;
         }
-
-        printf("%d %d\n",imageInX,imageInY);
 
         if(imageInX>=1 && imageInY==1)
         {
