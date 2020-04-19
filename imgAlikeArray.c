@@ -6,7 +6,10 @@
 int main()
 {
    FILE *imgInput,*imgOutput;
-   imgInput = fopen("lena_gray.bmp", "rb");
+   char name[100];
+	scanf("%s",name);
+	
+	imgInput = fopen(name, "rb"); 
 
    fseek(imgInput,0,SEEK_END);
    
